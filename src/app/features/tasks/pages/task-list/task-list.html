@@ -1,0 +1,10 @@
+<h2>Listado de tareas</h2>
+
+@for (task of tasks(); track task.id) {
+  <button type="button" (click)="toggleTask(task.id)">
+    {{ task.title }}
+  </button>
+  <p>{{ task.completed ? 'Completada' : 'Pendiente' }}</p>
+} @empty {
+  <p>No hay tareas disponibles.</p>
+}
