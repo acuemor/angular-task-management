@@ -1,0 +1,13 @@
+<form (ngSubmit)="onCreateTask(taskTitleInputElement)">
+  <label for="task-title">Nueva tarea </label>
+  <input
+    id="task-title"
+    type="text"
+    placeholder="Nueva tarea"
+    #taskTitleInputElement
+    required
+  />
+  <button type="submit">
+    Añadir tarea
+  </button>
+</form>

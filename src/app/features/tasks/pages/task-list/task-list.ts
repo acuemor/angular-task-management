@@ -1,8 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Task } from '../../models/task.model';
+import { TaskItem } from '../../components/task-item/task-item';
+import { TaskForm } from '../../components/task-form/task-form';
 
 @Component({
-  imports: [],
+  imports: [TaskItem, TaskForm],
   selector: 'app-task-list',
   styleUrl: './task-list.scss',
   templateUrl: './task-list.html',
@@ -32,5 +34,16 @@ export class TaskList {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
+  }
+
+  protected addTask(title: string): void {
+    this.tasks.update(tasks => [
+      ...tasks,
+      {
+        id: Math.max(0, ...tasks.map(task => task.id)) + 1,
+        title,
+        completed: false,
+      },
+    ]);
   }
 }

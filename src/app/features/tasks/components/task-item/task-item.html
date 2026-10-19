@@ -1,0 +1,9 @@
+<article>
+  <!-- Título -->
+  <h2>{{ task().title }}</h2>
+  <!-- Estado -->
+  <p>{{ task().completed ? 'Completada' : 'Pendiente' }}</p>
+  <button type="button" (click)="onToggleState()">
+    Cambiar estado
+  </button>
+</article>
