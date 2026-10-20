@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { Task } from '../../models/task.model';
+import { Component, inject } from '@angular/core';
 import { TaskItem } from '../../components/task-item/task-item';
 import { TaskForm } from '../../components/task-form/task-form';
+import { TaskService } from '../../services/task';
 
 @Component({
   imports: [TaskItem, TaskForm],
@@ -10,40 +10,5 @@ import { TaskForm } from '../../components/task-form/task-form';
   templateUrl: './task-list.html',
 })
 export class TaskList {
-  protected readonly tasks = signal<Task[]>([
-    {
-      id: 1,
-      title: 'Aprender signals',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Configurar el router',
-      completed: true,
-    },
-    {
-      id: 3,
-      title: 'Crear el modelo Task',
-      completed: false,
-    }
-  ]);
-
-  protected toggleTask(id: number): void {
-    this.tasks.update(tasks =>
-      tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  }
-
-  protected addTask(title: string): void {
-    this.tasks.update(tasks => [
-      ...tasks,
-      {
-        id: Math.max(0, ...tasks.map(task => task.id)) + 1,
-        title,
-        completed: false,
-      },
-    ]);
-  }
+  protected readonly taskService = inject(TaskService);
 }
