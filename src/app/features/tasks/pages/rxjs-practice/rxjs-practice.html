@@ -1,0 +1,13 @@
+@if (isLoading()) {
+  <div class="loading-container" role="status" aria-label="Cargando tareas">
+    <span class="spinner"></span>
+    <span class="sr-only">Cargando tareas...</span>
+  </div>
+} @else if (errorMessage()) {
+    <div>{{ errorMessage() }}</div>
+} @else {
+  @for (todo of tasks(); track todo.id) {
+    <b>{{ todo.title }}</b>
+    <div>{{ todo.completed ? 'Completada' : 'Pendiente' }}</div>
+  }
+}
