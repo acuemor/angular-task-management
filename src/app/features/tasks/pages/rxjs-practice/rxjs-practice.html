@@ -4,10 +4,23 @@
     <span class="sr-only">Cargando tareas...</span>
   </div>
 } @else if (errorMessage()) {
-    <div>{{ errorMessage() }}</div>
+  <div class="error-message" role="alert">
+    {{ errorMessage() }}
+  </div>
 } @else {
-  @for (todo of tasks(); track todo.id) {
-    <b>{{ todo.title }}</b>
-    <div>{{ todo.completed ? 'Completada' : 'Pendiente' }}</div>
-  }
+  <section class="todo-list" aria-label="Tareas obtenidas de la API">
+    @for (todo of tasks(); track todo.id) {
+      <article class="todo-item" [class.completed]="todo.completed">
+        <div class="todo-content">
+          <strong class="todo-title">{{ todo.title }}</strong>
+          <span class="todo-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            {{ todo.completed ? 'Completada' : 'Pendiente' }}
+          </span>
+        </div>
+      </article>
+    } @empty {
+      <p class="empty-state">No se han encontrado tareas.</p>
+    }
+  </section>
 }

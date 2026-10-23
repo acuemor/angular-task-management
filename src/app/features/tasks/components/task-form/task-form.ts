@@ -1,8 +1,8 @@
 import { Component, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   selector: 'app-task-form',
   styleUrl: './task-form.scss',
   templateUrl: './task-form.html',
@@ -10,12 +10,29 @@ import { FormsModule } from '@angular/forms';
 export class TaskForm {
   taskCreatedEvent = output<string>();
 
-  protected onCreateTask(taskTitleInputElement: HTMLInputElement): void {
-    const trimmedTitle = taskTitleInputElement.value.trim();
+  taskForm = new FormGroup({
+    title: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(3)
+      ],
+    }),
+  });
+
+  protected onCreateTask(): void {
+    debugger;
+    if (this.taskForm.invalid) {
+      return;
+    }
+
+    const trimmedTitle = this.taskForm.controls.title.value.trim();
+
     if (!trimmedTitle) {
       return;
     }
-    taskTitleInputElement.value = '';
+
     this.taskCreatedEvent.emit(trimmedTitle);
+    this.taskForm.reset();
   }
 }

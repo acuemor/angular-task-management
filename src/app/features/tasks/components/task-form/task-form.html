@@ -1,13 +1,30 @@
-<form (ngSubmit)="onCreateTask(taskTitleInputElement)">
+<form [formGroup]="taskForm" (ngSubmit)="onCreateTask()">
   <label for="task-title">Nueva tarea </label>
   <input
+    formControlName="title"
     id="task-title"
     type="text"
     placeholder="Nueva tarea"
-    #taskTitleInputElement
-    required
   />
-  <button type="submit">
+
+  <button type="submit" [disabled]="taskForm.invalid">
     Añadir tarea
   </button>
+
+  @if (
+    taskForm.controls.title.invalid &&
+    (taskForm.controls.title.dirty)
+  ) {
+    <div class="error-message">
+      @if (taskForm.controls.title.hasError('required')) {
+        <p>El título es obligatorio.</p>
+      }
+
+      @if (taskForm.controls.title.hasError('minlength')) {
+        <p>El título debe tener al menos 3 caracteres.</p>
+      }
+    </div>
+  }
 </form>
+
+

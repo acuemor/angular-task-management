@@ -1,9 +1,13 @@
-<article>
-  <!-- Título -->
-  <h2>{{ task().title }}</h2>
-  <!-- Estado -->
-  <p>{{ task().completed ? 'Completada' : 'Pendiente' }}</p>
-  <button type="button" (click)="onToggleState()">
-    Cambiar estado
-  </button>
-</article>
+<div class="task-item" [class.completed]="task().completed">
+  <span class="task-title">{{ task().title }}</span>
+
+  <div class="task-actions">
+    <span class="task-status">
+      {{ task().completed ? 'Completada' : 'Pendiente' }}
+    </span>
+
+    <button type="button" (click)="onToggleState()">
+      Cambiar estado
+    </button>
+  </div>
+</div>
