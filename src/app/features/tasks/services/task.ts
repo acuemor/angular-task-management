@@ -1,27 +1,53 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { effect, computed, Injectable, signal } from '@angular/core';
 import type { Task } from '../models/task.model';
+
+const DEFAULT_TASKS: Task[] = [
+  {
+    id: 1,
+    title: 'Aprender signals',
+    completed: false,
+  },
+  {
+    id: 2,
+    title: 'Configurar el router',
+    completed: true,
+  },
+  {
+    id: 3,
+    title: 'Crear el modelo Task',
+    completed: false,
+  },
+];
+
+function loadTasks(): Task[] {
+  try {
+    const storedTasks = window.localStorage.getItem('tasks');
+    if (storedTasks === null) {
+      return [...DEFAULT_TASKS];
+    }
+    const parsedTasks = JSON.parse(storedTasks) as Task[];
+    if (Array.isArray(parsedTasks) && parsedTasks.every(task => 'id' in task && 'title' in task && 'completed' in task)) {
+      return parsedTasks;
+    }
+    return [...DEFAULT_TASKS];
+  } catch {
+    return [...DEFAULT_TASKS];
+  }
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private readonly _tasks = signal<Task[]>([
-    {
-      id: 1,
-      title: 'Aprender signals',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Configurar el router',
-      completed: true,
-    },
-    {
-      id: 3,
-      title: 'Crear el modelo Task',
-      completed: false,
-    },
-  ]);
+  private readonly _tasks = signal<Task[]>(loadTasks());
+  private readonly _persistTasks = effect(() => {
+    window.localStorage.setItem(
+      'tasks',
+      JSON.stringify(this.tasks())
+    );
+  });
+
+
 
   public readonly tasks = this._tasks.asReadonly();
   public readonly pendingTasks = computed<Task[]>(() =>
