@@ -1,4 +1,8 @@
 <h2>Listado de tareas</h2>
+<h3>
+  Tareas pendientes: {{ taskService.pendingTasks().length }} -
+  Tareas completadas: {{ taskService.completedTasks() }}
+</h3>
 
 <app-task-form (taskCreatedEvent)="taskService.addTask($event)" />
 
@@ -6,6 +10,7 @@
   <app-task-item
     [task]="task"
     (toggleEvent)="taskService.toggleTask($event)"
+    (deleteEvent)="taskService.deleteTask($event)"
   />
 } @empty {
   <p>No hay tareas disponibles.</p>

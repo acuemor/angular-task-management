@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import type { Task } from '../models/task.model';
 
 @Injectable({
@@ -24,6 +24,10 @@ export class TaskService {
   ]);
 
   public readonly tasks = this._tasks.asReadonly();
+  public readonly pendingTasks = computed<Task[]>(() =>
+    this.tasks().filter(task => !task.completed)
+  );
+  public readonly completedTasks = computed(() => this.tasks().filter(task => task.completed).length);
 
   public toggleTask(id: number): void {
     this._tasks.update(tasks =>
@@ -42,6 +46,10 @@ export class TaskService {
         completed: false,
       },
     ]);
+  }
+
+  public deleteTask(id: number): void {
+    this._tasks.update(tasks => tasks.filter(task => task.id !== id));
   }
 
 }
