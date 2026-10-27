@@ -11,18 +11,16 @@
     Añadir tarea
   </button>
 
-  @if (
-    taskForm.controls.title.invalid &&
-    (taskForm.controls.title.dirty)
-  ) {
+  @if (titleControl.invalid && titleControl.dirty) {
     <div class="error-message">
-      @if (taskForm.controls.title.hasError('required')) {
+      @if (titleControl.hasError('required')) {
         <p>El título es obligatorio.</p>
-      }
-
-      @if (taskForm.controls.title.hasError('minlength')) {
+      } @else if (titleControl.hasError('whitespace')) {
+        <p>El título no puede contener solo espacios.</p>
+      } @else if (titleControl.hasError('minlength')) {
         <p>El título debe tener al menos 3 caracteres.</p>
       }
+
     </div>
   }
 </form>
