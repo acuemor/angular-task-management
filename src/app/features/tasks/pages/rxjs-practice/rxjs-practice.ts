@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, DestroyRef } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { delay, of, tap, catchError, throwError, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,6 +16,13 @@ export class RxjsPractice {
   protected readonly isLoading = signal(true);
   protected readonly errorMessage = signal<string | null>(null);
   private readonly todoApiService = inject(TodoApiService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      console.log('RxjsPractice destruido');
+    });
+  }
 
   // Coger las tareas desde un Observable mockeado
 
