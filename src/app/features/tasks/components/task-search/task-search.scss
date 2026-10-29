@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+form {
+  width: 100%;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background-color: #fff;
+  color: #1f2937;
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0.9rem center;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+input:hover {
+  border-color: #9ca3af;
+}
+
+input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 15%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input {
+    transition: none;
+  }
+}

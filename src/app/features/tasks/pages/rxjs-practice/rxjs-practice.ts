@@ -1,4 +1,5 @@
-import { Component, signal, inject, DestroyRef } from '@angular/core';
+import { Component, signal, inject, DestroyRef, computed } from '@angular/core';
+import { TaskSearch } from '../../components/task-search/task-search';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { delay, of, tap, catchError, throwError, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,7 +8,7 @@ import { Todo } from '../../models/todo.model';
 import { TodoApiService } from '../../services/todo-api';
 
 @Component({
-  imports: [],
+  imports: [TaskSearch],
   selector: 'app-rxjs-practice',
   styleUrl: './rxjs-practice.scss',
   templateUrl: './rxjs-practice.html',
@@ -58,6 +59,18 @@ export class RxjsPractice {
   );
 
   protected readonly tasks = toSignal(this.tasks$, { initialValue: [] as Todo[], });
+  protected readonly searchTerm = signal('');
+  protected readonly filteredTasks = computed(() => {
+    const term = this.searchTerm().trim().toLowerCase();
+    return this.tasks().filter(todo =>
+      todo.title.toLowerCase().includes(term)
+    );
+  });
+
+  protected onSearchTermChange(term: string): void {
+    debugger;
+    this.searchTerm.set(term);
+  }
 
 }
 

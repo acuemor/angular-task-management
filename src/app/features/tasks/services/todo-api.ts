@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import type { Observable } from 'rxjs';
 import type { Todo } from '../models/todo.model';
 
@@ -13,5 +13,13 @@ export class TodoApiService {
     return this.http.get<Todo[]>(
       'https://jsonplaceholder.typicode.com/todos?_limit=5',
     );
+  }
+
+  public searchTodos(term: string): Observable<Todo[]> {
+    const params = new HttpParams()
+      .set('title_like', term)
+      .set('_limit', 5);
+
+    return this.http.get<Todo[]>(`https://jsonplaceholder.typicode.com/todos`, { params });
   }
 }

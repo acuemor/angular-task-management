@@ -8,8 +8,9 @@
     {{ errorMessage() }}
   </div>
 } @else {
+  <app-task-search (searchTermChange)="onSearchTermChange($event)"></app-task-search>
   <section class="todo-list" aria-label="Tareas obtenidas de la API">
-    @for (todo of tasks(); track todo.id) {
+    @for (todo of filteredTasks(); track todo.id) {
       <article class="todo-item" [class.completed]="todo.completed">
         <div class="todo-content">
           <strong class="todo-title">{{ todo.title }}</strong>
